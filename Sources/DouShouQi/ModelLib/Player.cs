@@ -8,29 +8,39 @@
 * -------------------------------------------------------------------------
 ***************************************************************************/
 
+using System.Runtime.Serialization;
+
 namespace DouShouQiModel
 {
-    public abstract class Player : IIsPersistant
+    [DataContract]
+    [KnownType(typeof(HumanPlayer))]
+    [KnownType(typeof(AIPlayer))]
+    public abstract class Player
     {
         /// <summary>
         /// Représente le nom du joueur ou de l'IA
         /// </summary>
+        [DataMember]
         public string Name { get; private set; }
         /// <summary>
         /// Représente l'équipe du joueur ou de l'IA
         /// </summary>
+        [DataMember]
         public Team Team { get; private set; }
         /// <summary>
         /// Représente le nombre de pièces restantes du joueur ou de l'IA
         /// </summary>
+        [DataMember]
         public int NbPieces { get; private set; }
         /// <summary>
         /// Représente le choix de l'humain pour son move de pièce
         /// </summary>
+        [DataMember]
         public int? ChosenMoveIndex { get; set; }
         /// <summary>
         /// Représente le choix de l'humain de la pièce
         /// </summary>
+        [DataMember]
         public int? ChosenPieceIndex { get; set; }
 
         /// <summary>

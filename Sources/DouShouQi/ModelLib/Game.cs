@@ -8,59 +8,53 @@
 * -------------------------------------------------------------------------
 ***************************************************************************/
 
-using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.ComponentModel.Design;
 using System.Data;
-using System.Numerics;
 using System.Runtime.CompilerServices;
-using DouShouQiModel;
+using System.Runtime.Serialization;
 
 namespace DouShouQiModel
 {
-    public class Game : IIsPersistant
+    [DataContract]
+    public class Game
     {
+        GameSaver Serializer { get; } = new GameSaver();
         public event PropertyChangedEventHandler? PropertyChanged;
 
         protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
         /// <summary>
         /// Représente le plateau de jeu
         /// </summary>
-        private Board? _board = null;
-        /// <summary>
-        /// Représente le plateau de jeu
-        /// </summary>
-        public Board? Board
-        {
-            get => _board;
-            set
-            {
-                if (_board != value)
-                {
-                    _board = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
+        [DataMember(Order = 1)]
+        public Board? Board = null;
+
         /// <summary>
         /// Représente le joueur 1
         /// </summary>
+        [DataMember(Order = 2)]
         public Player? Player1 { get; set; }
+
         /// <summary>
         /// Représente le joueur 2
         /// </summary>
+        [DataMember(Order = 3)]
         public Player? Player2 { get; set; }
+
         /// <summary>
         /// Représente les règles du jeu
         /// </summary>
+        [DataMember(Order = 4)]
         public IRules? Rules { get; set; }
+
         /// <summary>
         /// Représente si le jeu est lancé ou pas
         /// </summary>
+        [DataMember(Order = 5)]
         private bool? _isGameLaunched;
         public bool? IsGameLaunched
         {
@@ -74,9 +68,11 @@ namespace DouShouQiModel
                 }
             }
         }
+
         /// <summary>
         /// Représente le tour actuel
         /// </summary>
+        [DataMember(Order = 6)]
         private int? _turnCounter;
         public int? TurnCounter
         {
@@ -90,9 +86,11 @@ namespace DouShouQiModel
                 }
             }
         }
+
         /// <summary>
         /// Représente le joueur actuel
         /// </summary>
+        [DataMember(Order = 7)]
         private Player? _currentPlayer;
         public Player? CurrentPlayer
         {
@@ -270,6 +268,34 @@ namespace DouShouQiModel
             {
                 OnFailed(new FailedEventArgs(currentPlayer, e));
                 MakeMoove(currentPlayer, board, allPieces, rules);
+            }
+        }
+
+        public void LoadGame()
+        {
+            Game game = Serializer.Load<Game>();
+            if (game == null)
+            {
+                throw new InvalidOperationException("Le jeu n'a pas pu être chargé.");
+            }
+            Board = game.Board;
+            Player1 = game.Player1;
+            Player2 = game.Player2;
+            Rules = game.Rules;
+            IsGameLaunched = game.IsGameLaunched;
+            TurnCounter = game.TurnCounter;
+            CurrentPlayer = game.CurrentPlayer;
+        }
+
+        public void SaveGame()
+        {
+            try
+            {
+                Serializer.Save(this);
+            }
+            catch (Exception ex)
+            {
+                OnFailed(new FailedEventArgs(CurrentPlayer, ex));
             }
         }
     }

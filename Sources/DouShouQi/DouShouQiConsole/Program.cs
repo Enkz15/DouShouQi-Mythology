@@ -136,6 +136,7 @@ static void GameLoop(Game game, Board board, BoardPrinter boardPrinter, List<Pie
         ShowBoardIfHuman(game, boardPrinter, board, allPieces);
         MakeMoveIfPossible(game, board, allPieces);
         game.SwitchTurn();
+        game.SaveGame();
     }
     EndGame(game);
 }

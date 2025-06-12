@@ -1,14 +1,4 @@
-﻿/***************************************************************************
-* Position.cs
-* -------------------------------------------------------------------------
-* Project       : DouShouQi Mythology
-* Author        : FORTUNE Grégoire ; ANGIA Shreya
-* Date          : 04/04/2025
-* Description   : Defines the Position class with its properties and methods.              
-* -------------------------------------------------------------------------
-***************************************************************************/
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -33,41 +23,22 @@ namespace DouShouQiModel
         }
 
         /// <summary>
-        /// Verifies if the position is equal to another position
+        /// Vérifie si la position est égale à une autre position
         /// </summary>
-        /// <param name="other"></param>
+        /// <param name="pos">Position à vérifier</param>
         /// <returns></returns>
-        public bool Equals(Position? other)
+        public bool Equals(Position? pos)
         {
-            if (other == null) return false; 
-            return X == other.X && Y == other.Y; 
-        } 
-
-
-
-        /// <summary>
-        /// Verifies if the position is equal to another object
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
-        public override bool Equals(object? obj)
-        {
-            // Check null
-            if  (ReferenceEquals(obj, null)) return false; 
-
-            // Check reference equality
-            if (ReferenceEquals(this, obj)) return true;
-
-            // Check types 
-            if (obj.GetType() != GetType()) return false;
-
-            return Equals(obj as Position); 
+            if (ReferenceEquals(pos, null)) return false;
+            if (ReferenceEquals(this, pos)) return true;
+            return X == pos.X && Y == pos.Y;
         }
 
-        /// <summary>
-        /// Calculates the hash code for the position
-        /// </summary>
-        /// <returns></returns>
+        public override bool Equals(object? obj)
+        {
+            return Equals(obj as Position);
+        }
+
         public override int GetHashCode()
         {
             return HashCode.Combine(X, Y);

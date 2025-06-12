@@ -33,17 +33,14 @@ namespace Stubs
                 {
                     Name = "Zeus - Jupiter",
                     Characteristic = "Sky",
-                    Description = "Zeus, known as Jupiter in Roman mythology, is the mighty king of the gods and ruler of Mount Olympus. " +
-                    "He governs the skies, thunder, and lightning, often seen wielding his powerful thunderbolt. As the god of law and order, he maintains balance among gods and mortals, though he is not without flaws. " +
-                    "Zeus is known for his many adventures, his commanding presence, and his unwavering authority. In any conflict, his word is final.",
+                    Description = "Zeus was the most powerful of the Greek gods and goddesses. As god of the sky and king of Olympus, his temper affected the weather. Zeus also rules over all other gods and goddesses, so he was worshipped in most ancient Greek homes through altars, shrines and daily offerings. Zeus had the power to change his shape and he was also married to the queen of the gods, Hera.",
                     Image = "zeus_presentation.jpg"
                 },
                 new Character
                 {
                     Name = "Poseidon - Neptune",
                     Characteristic = "Sea",
-                    Description = "Poseidon, or Neptune to the Romans, is the god of the seas, storms, and earthquakes. With his signature trident, he commands the oceans and can stir up tempests or calm the waves at will. " +
-                    "Fierce and unpredictable, Poseidon’s mood can shift like the tides. He is also the creator of horses and protector of sailors. As one of the three brothers who rule the world, his power is immense and his presence always demands respect.",
+                    Description = "As god of the sea and brother of Zeus, Poseidon was one of the most powerful Greek gods. Similar to Zeus, Poseidon's temper controlled the seas, so sailors would pray to Poseidon before voyages to ensure safe passage.",
                     Image = "poseidon_presentation.jpg"
                 },
 
@@ -51,8 +48,7 @@ namespace Stubs
                 {
                     Name = "Hades - Pluto",
                     Characteristic = "Underworld",
-                    Description = "Hades, also known as Pluto, is the god of the underworld and ruler of the realm of the dead. Unlike his brothers Zeus and Poseidon, Hades chooses to dwell away from Olympus, governing the shadowy lands below. " +
-                    "He is a stern and just deity, overseeing the souls of the departed with unshakable fairness. Often misunderstood as evil, Hades is more solemn than sinister, and his dominion over death is both feared and respected.",
+                    Description = "Hades, brother of Zeus and Poseidon, is the god of the underworld and ruler of the dead. He is known for his strict but fair rule over the realm of the deceased and is often associated with wealth and the riches found underground.",
                     Image = "hades_presentation.jpg"
                 },
 
@@ -68,9 +64,7 @@ namespace Stubs
                 {
                     Name = "Hephaestus - Vulcan",
                     Characteristic = "Fire & Metal",
-                    Description = "Hephaestus, called Vulcan by the Romans, is the divine blacksmith and god of fire, metal, and craftsmanship. " +
-                    "Though physically lame and often seen as less graceful than other gods, his hands create wonders no one else can match. " +
-                    "He forges the weapons of gods and heroes, imbuing them with unmatched power. Working deep within volcanoes, Hephaestus turns raw elements into legendary creations, proving that true strength lies in mastery and perseverance.",
+                    Description = "The son of Zeus and Hera, Hephaestus was the Greek god of fire, metal working, sculpture. Hephaestus was associated with craftsmen and blacksmiths, and was married to the goddess, Aphrodite. Unlike other Greek gods and goddesses, Hephaestus was physically flawed, being known as “the lame one”, due to being thrown from Mount Olympus by Hera. He is depicted with a hammer and an anvil.",
                     Image = "hephaestus_presentation.jpg"
                 },
 
@@ -78,8 +72,7 @@ namespace Stubs
                 {
                     Name = "Hermes - Mercure",
                     Characteristic = "Messenger",
-                    Description = "Hermes, or Mercury in Roman mythology, is the swift-footed messenger of the gods. Known for his cleverness and wit, Hermes travels freely between the mortal world, Olympus, and the underworld. " +
-                    "He is the god of travelers, merchants, and thieves, and often acts as a guide for souls entering the afterlife. With his winged sandals and staff, he moves at lightning speed and always has a trick or a message up his sleeve.",
+                    Description = "The youngest son of Zeus, Hermes became the messenger of the gods due to his speed and trustworthiness. Wearing winged shoes, Hermes could fly and travel quickly. Hermes was the protector of travellers and merchants. He is credited with the invention of boxing and gymnastics.",
                     Image = "hermes_presentation.jpg"
                 },
 
@@ -87,9 +80,7 @@ namespace Stubs
                 {
                     Name = "Aphrodite - Venus",
                     Characteristic = "Love & Beauty",
-                    Description = "Aphrodite, called Venus by the Romans, is the enchanting goddess of love, beauty, and desire. " +
-                    "Born from the sea foam, she has a radiant charm that no god or mortal can resist. But her influence goes beyond romance—Aphrodite can shape destinies, start wars, or bring peace, all with the sway of a heart. " +
-                    "Her beauty is legendary, and her ability to manipulate emotions makes her both powerful and dangerous.\r\n\r\n",
+                    Description = "Aphrodite was largely worshipped as goddess of love and beauty in many of the city-states that made up Ancient Greece. As goddess of love and fertility, Aphrodite's symbols were doves, roses, swans, and sparrows. Aphrodite was believed to be either the daughter of Zeus, or risen from the sea upon a shell.",
                     Image = "aphrodite_presentation.jpg"
                 },
                
@@ -98,9 +89,7 @@ namespace Stubs
                 {
                     Name = "Heracles - Hercules",
                     Characteristic = "Strength",
-                    Description = "Heracles, known as Hercules in Roman myth, is the greatest of Greek heroes, famous for his extraordinary strength and indomitable spirit. " +
-                    "Born as a demigod, he completed twelve impossible labors as punishment for a tragic mistake, proving himself worthy of immortality. Heracles embodies raw power, bravery, and endurance, often using force where others use wit. " +
-                    "Though not always subtle, his heart is noble, and his name is synonymous with heroic legend.\r\n\r\n",
+                    Description = "Hercules is the Roman name given to the hero Heracles from Greek mythology. He is the illegitimate son of a mortal woman and Zeus, the king of all Olympian gods, and is renowned for his extraordinary strength. He also was a brutal character who murdered his family and many others over his lifetime.",
                     Image = "heracles_presentation.jpg"
                 }
             };

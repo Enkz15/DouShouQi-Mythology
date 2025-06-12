@@ -244,7 +244,7 @@ namespace TestRules
 
         //Test to see if we can switch turn
         [Fact]
-        public void CanSwitchTurn_TestWhenTrue() 
+        public void CanSwitchTurn_TestWhenTrue()
         {
             // Arrange
             var piece1 = new Piece("Zeus", new Position(2, 2), new Piece.PieceOptions { InPlay = true, IsSelected = false, CanMoveOnWater = false, CanJumpOverWater = false });
@@ -260,7 +260,7 @@ namespace TestRules
         };
 
             // Moving piece1 to a new position
-            piece1.MoveTo(new Position(4, 4)); 
+            piece1.MoveTo(new Position(4, 4));
 
             var rules = new StandardRules();
             bool result = rules.CanSwitchTurn(playerPieces, previousPositions);
