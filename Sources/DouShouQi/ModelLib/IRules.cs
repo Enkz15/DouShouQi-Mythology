@@ -18,15 +18,15 @@ using DouShouQiModel;
 
 namespace DouShouQiModel
 {
-    public interface IRules
+    public interface IRules 
     {
         /// <summary>
-        /// Verifies if a piece can move to the destination cell
+        /// Verifies if a piece can move to the destination cell 
         /// </summary>
-        /// <param name="piece"></param>
+        /// <param name="piece"></param> 
         /// <param name="endPosition"></param>
         /// <param name="allPieces"></param>
-        /// <param name="board"></param>
+        /// <param name="board"></param> 
         /// <returns></returns>
         bool IsMoveValid(Piece piece, Position endPosition, List<Piece> allPieces, Board board);
 
@@ -39,10 +39,10 @@ namespace DouShouQiModel
         bool CanSwitchTurn(List<Piece> playerPieces, Dictionary<string, Position> previousPositions);
 
         /// <summary>
-        /// Verifies if a piece is in the destination cell
+        /// Verifies if a piece is in the destination cell 
         /// </summary>
         /// <param name="playerPieces"></param>
-        /// <param name="destination"></param>
+        /// <param name="destination"></param> 
         /// <returns></returns>
         public bool IsPieceHere(List<Piece> playerPieces, Position destination);
 

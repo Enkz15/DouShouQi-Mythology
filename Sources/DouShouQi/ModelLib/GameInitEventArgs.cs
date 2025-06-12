@@ -11,6 +11,14 @@ namespace DouShouQiModel
     /// </summary>
     public class GameInitEventArgs : EventArgs
     {
-
+        public Board? Board { get; private set; }
+        public List<bool>? ListAbilityIsActivate {  get; private set; }
+        public GameInitEventArgs(Board board, List<bool> listAbilityIsActivate)
+        {
+            Board = board;
+            ListAbilityIsActivate = listAbilityIsActivate;
+        }
     }
+
+
 }

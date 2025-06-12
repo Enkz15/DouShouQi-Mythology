@@ -244,7 +244,7 @@ namespace TestRules
 
         //Test to see if we can switch turn
         [Fact]
-        public void CanSwitchTurn_TestWhenTrue() 
+        public void CanSwitchTurn_TestWhenTrue()
         {
             // Arrange
             var piece1 = new Piece("Zeus", new Position(2, 2), new Piece.PieceOptions { InPlay = true, IsSelected = false, CanMoveOnWater = false, CanJumpOverWater = false });
@@ -260,7 +260,7 @@ namespace TestRules
         };
 
             // Moving piece1 to a new position
-            piece1.MoveTo(new Position(4, 4)); 
+            piece1.MoveTo(new Position(4, 4));
 
             var rules = new StandardRules();
             bool result = rules.CanSwitchTurn(playerPieces, previousPositions);
@@ -639,6 +639,18 @@ namespace TestRules
             Assert.False(result);
         }
 
+        [Fact]
+        public void CanCapture_ReturnsTrue_WhenDefenderIsOnTrap()
+        {
+            var rules = new StandardRules();
+            var attacker = new Piece("Hades", new Position(2, 2), new Piece.PieceOptions { InPlay = true, IsSelected = false, CanMoveOnWater = false, CanJumpOverWater = false, Strength = 5, Team = Team.Greek });
+            var defender = new Piece("Zeus", new Position(1, 3), new Piece.PieceOptions { InPlay = true, IsSelected = false, CanMoveOnWater = false, CanJumpOverWater = false, Strength = 8, Team = Team.Roman }); // Position d'un piège
+
+            bool result = rules.CanCapture(attacker, defender);
+
+            Assert.True(result); // L'attaquant peut capturer car le défenseur est sur un piège
+            Assert.Equal(0, defender.Strength); // La force du défenseur doit être réduite à 0
+        }
 
         [Fact]
         public void CanCapture_ReturnsFalse_WhenAttackerIsInWater()

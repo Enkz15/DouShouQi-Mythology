@@ -22,7 +22,7 @@ namespace Stubs
         public static TeamMember Anae { get; } = new TeamMember
         {
             Name = "Anaé",
-            Description = "Graphic ressources Manager & Software Developer",
+            Description = "Graphic ressources Manager & Sotware Developer",
             Image = "profil_anae.jpg" 
         };
 

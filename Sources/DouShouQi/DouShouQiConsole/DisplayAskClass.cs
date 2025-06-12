@@ -109,7 +109,7 @@ namespace DouShouQiConsole
         /// <exception cref="Exception"></exception>
         public static void OnGameInit(object? sender, GameInitEventArgs e)
         {
-            if (sender is not Game game || game == null)
+            if (sender is not Game game || game == null || e.Board == null)
                 return;
 
             Console.Clear();
@@ -122,6 +122,8 @@ namespace DouShouQiConsole
             Console.WriteLine();
 
             game.Rules = AskRules();
+            if (game.Rules is CustomRules)
+                AskCustomRules(game, e.Board, game.Rules);
             string name1 = AskPlayerName("Nom du premier joueur : ", null);
             Team team1 = AskTeam(name1);
             Team team2 = team1 == Team.Greek ? Team.Roman : Team.Greek;
@@ -143,7 +145,7 @@ namespace DouShouQiConsole
             Console.WriteLine();
         }
 
-        private static StandardRules AskRules()
+        private static IRules AskRules()
         {
             while (true)
             {
@@ -157,12 +159,92 @@ namespace DouShouQiConsole
                 if (rulesChoisi == "standard")
                     return new StandardRules();
                 if (rulesChoisi == "custom")
-                {
-                    Console.WriteLine("Le mode 'custom' est momentanément indisponible.");
-                    continue;
-                }
+                    return new CustomRules();
+
                 Console.WriteLine("Règles incorrectes.");
             }
+        }
+
+        private static void AskCustomRules(Game game, Board board, IRules currentRules)
+        {
+            while (true)
+            {
+                Console.Write("Activer les traps ? (o:oui, n:non) : ");
+                string? choixTraps = Console.ReadLine()?.Trim().ToLower();
+                if (string.IsNullOrEmpty(choixTraps))
+                {
+                    Console.WriteLine("Entrée incorrecte.");
+                    continue;
+                }
+                if (choixTraps == "n")
+                {
+                    Console.WriteLine("Désactivation des traps...");
+                    Game.DisebaleTraps(board, currentRules);
+                    break;
+                }                    
+
+                if (choixTraps == "o")
+                {
+                    Console.WriteLine("Activation des traps...");
+                    break;
+                }
+                Console.WriteLine("Choix incorrectes.");
+            }
+
+            while (true)
+            {
+                Console.Write("Activer la fontaine ? (o:oui, n:non) : ");
+                string? choixFontain = Console.ReadLine()?.Trim().ToLower();
+                if (string.IsNullOrEmpty(choixFontain))
+                {
+                    Console.WriteLine("Entrée incorrecte.");
+                    continue;
+                }
+                if (choixFontain == "n")
+                {
+                    Console.WriteLine("Désactivation de la fontaine...");
+                    break;
+                }
+
+                if (choixFontain == "o")
+                {
+                    Console.WriteLine("Activation de la fontaine...");
+                    Game.EnableFountain(board, currentRules);
+                    break;
+                }
+                Console.WriteLine("Choix incorrectes.");
+            }
+
+            List<bool> lstCompetence = new();
+
+            for (int i = 1; i <= 8; i++)
+            {
+                while (true)
+                {
+                    Console.Write($"Activer la compétence de la force {i} ? (o:oui, n:non) : ");
+                    string? choixCompetence = Console.ReadLine()?.Trim().ToLower();
+                    if (string.IsNullOrEmpty(choixCompetence))
+                    {
+                        Console.WriteLine("Entrée incorrecte.");
+                        continue;
+                    }
+                    if (choixCompetence == "n")
+                    {
+                        Console.WriteLine($"Désactivation de la compétence pour la force {i}...");
+                        lstCompetence.Add(false);
+                        break;
+                    }
+
+                    if (choixCompetence == "o")
+                    {
+                        Console.WriteLine($"Activation de la compétence pour la force {i}...");
+                        lstCompetence.Add(true);
+                        break;
+                    }
+                }
+            }
+            game.ListAbilityIsActivate = lstCompetence;
+            Console.WriteLine("Tous vos choix sont bien enregistés");
         }
 
         private static string AskPlayerName(string prompt, string? forbiddenName)

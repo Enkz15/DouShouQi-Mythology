@@ -13,5 +13,6 @@ namespace DouShouQiModel
         Water,
         Trap,
         House,
+        Fountain,
     }
 }

@@ -10,7 +10,7 @@
 
 namespace DouShouQiModel
 {
-    public abstract class Player : IIsPersistant
+    public abstract class Player
     {
         /// <summary>
         /// Représente le nom du joueur ou de l'IA

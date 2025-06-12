@@ -10,7 +10,6 @@
   <ItemGroup>
     <ProjectReference Include="..\ModelLib\DouShouQiModel.csproj" />
     <ProjectReference Include="..\Persistance\Stubs\Stubs.csproj" />
-    <ProjectReference Include="..\Serialize\Serialize.csproj" />
   </ItemGroup>
 
 </Project>

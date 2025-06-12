@@ -9,7 +9,7 @@ namespace Stubs
 {
     public class TabCellStub
     {
-        public Cell[,]? CreateStubBoard()
+        public Cell[,]? CreateStubBoard(bool areTrapsEneable, bool isFontainEneable)
         {
             int columns = 9;
             int rows = 7;

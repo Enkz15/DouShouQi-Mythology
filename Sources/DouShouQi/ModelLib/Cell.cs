@@ -8,67 +8,71 @@
 * -------------------------------------------------------------------------
 ***************************************************************************/
 using System.ComponentModel;
-using System.Runtime.Serialization;
-
 
 namespace DouShouQiModel
 {
-    [DataContract]
-    public class Cell
+    public class Cell : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
         private int _row;
         private int _column;
         private CellType _type;
         private Team _teamCell;
 
-        [DataMember]
         public int Row
         {
             get => _row;
-            internal set
+            set
             {
                 if (_row != value)
                 {
                     _row = value;
+                    OnPropertyChanged(nameof(Row));
                 }
             }
         }
 
-        [DataMember]
         public int Column
         {
             get => _column;
-            internal set
+            set
             {
                 if (_column != value)
                 {
                     _column = value;
+                    OnPropertyChanged(nameof(Column));
                 }
             }
         }
 
-        [DataMember]
         public CellType Type
         {
             get => _type;
-            internal set
+            set
             {
                 if (_type != value)
                 {
                     _type = value;
+                    OnPropertyChanged(nameof(Type));
                 }
             }
         }
 
-        [DataMember]
         public Team TeamCell
         {
             get => _teamCell;
-            internal set
+            set
             {
                 if (_teamCell != value)
                 {
                     _teamCell = value;
+                    OnPropertyChanged(nameof(TeamCell));
                 }
             }
         }

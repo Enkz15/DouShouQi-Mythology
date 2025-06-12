@@ -17,9 +17,9 @@ namespace DouShouQiModel
     {
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        protected void OnPropertyChanged(string propertyName)
+        protected void OnPropertyChanged(string propertyName) 
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName)); 
         }
 
         // Properties
@@ -65,7 +65,7 @@ namespace DouShouQiModel
                 if (_isSelected != value)
                 {
                     _isSelected = value;
-                    OnPropertyChanged(nameof(IsSelected));
+                    OnPropertyChanged(nameof(IsSelected)); 
                 }
             }
         }
@@ -150,7 +150,7 @@ namespace DouShouQiModel
             }
         }
 
-        public class PieceOptions
+        public class PieceOptions 
         {
             public bool InPlay { get; set; } = true;
             public bool IsSelected { get; set; } = false;
@@ -160,11 +160,91 @@ namespace DouShouQiModel
             public Team Team { get; set; } = Team.Unknown;
         }
 
+        private int _AbilityCooldown;
+        public int AbilityCooldown
+        {
+            get => _AbilityCooldown;
+            private set
+            {
+                if (_AbilityCooldown != value)
+                {
+                    _AbilityCooldown = value;
+                    OnPropertyChanged(nameof(value));
+                }
+            }
+        }
+
+        private bool _IsPassive;
+        public bool IsPassive
+        {
+            get => _IsPassive;
+            private set
+            {
+                if (_IsPassive != value)
+                {
+                    _IsPassive = value;
+                    OnPropertyChanged(nameof(value));
+                }
+            }
+        }
+
+        private bool _AbilityUsed;
+        public bool AbilityUsed
+        {
+            get => _AbilityUsed;
+            private set
+            {
+                if (_AbilityUsed != value)
+                {
+                    _AbilityUsed = value;
+                    OnPropertyChanged(nameof(value));
+                }
+            }
+        }
+
+        private bool _IsAbilityEnabled;
+        public bool IsAbilityEnabled
+        {
+            get => _IsAbilityEnabled;
+            private set
+            {
+                if (_IsAbilityEnabled != value)
+                {
+                    _IsAbilityEnabled = value;
+                    OnPropertyChanged(nameof(value));
+                }
+            }
+        }
+
+        private AbilityType _Ability;
+        public AbilityType Ability
+        {
+            get => _Ability;
+            private set
+            {
+                if (_Ability != value)
+                {
+                    _Ability = value;
+                    OnPropertyChanged(nameof(value));
+                }
+            }
+        }
+
+        public class PieceAbility
+        {
+            public int AbilityCooldown = 0;
+            public bool IsPassive = false;
+            public bool AbilityUsed = false;
+            public bool IsAbilityEnabled = false;
+            public AbilityType Ability = AbilityType.Unknown;
+        }
+
         ////////// Constructor //////////
-        public Piece(string pieceName, Position position, PieceOptions? options = null)
+        public Piece(string pieceName, Position position, PieceOptions? options = null, PieceAbility? ability = null)
         {
             _pieceName = pieceName;
             _position = position;
+
             options ??= new PieceOptions();
             _inPlay = options.InPlay;
             _isSelected = options.IsSelected;
@@ -172,6 +252,13 @@ namespace DouShouQiModel
             _canJumpOverWater = options.CanJumpOverWater;
             _strength = options.Strength;
             _team = options.Team;
+
+            ability ??= new PieceAbility();
+            _AbilityCooldown = ability.AbilityCooldown;
+            _IsPassive = ability.IsPassive;
+            _AbilityUsed = ability.AbilityUsed;
+            _IsAbilityEnabled = ability.IsAbilityEnabled;
+            _Ability = ability.Ability;
         }
 
         /////////// Methods ///////////

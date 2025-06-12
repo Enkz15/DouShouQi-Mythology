@@ -10,18 +10,13 @@
 using System.ComponentModel;
 using System.Numerics;
 using System.Runtime.CompilerServices;
-using System.Runtime.Serialization;
 
 namespace DouShouQiModel
 {
-    [DataContract]
     public class Matrix : INotifyPropertyChanged
     {
-        [DataMember]
         private readonly Cell[,] cells;
-        [DataMember]
         public int Columns { get; }
-        [DataMember]
         public int Rows { get; }
 
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -75,49 +70,58 @@ namespace DouShouQiModel
         }
 
     }
-    [DataContract]
     public class Board
     {
         /// <summary>
         /// Valeur par défaut du nombre de lignes
         /// </summary>
-        [DataMember(Order = 1)]
         private const int nbRows = 7;
 
         /// <summary>
         /// Valeur par défaut du nombre de colonnes
         /// </summary>
-        [DataMember(Order = 2)]
         private const int nbColumns = 9;
 
         /// <summary>
         /// Matrice représentant le plateau de jeu
         /// </summary>
-        private Cell[,] matrixBoard;
+        private readonly Cell[,] matrixBoard;
 
-        [DataMember(Name = "MatrixBoard", Order = 3)]
-        private List<Cell>? MatrixBoardSurrogate
+        private bool _isFountainEnable;
+        public bool IsFountainEnable
         {
-            get
+            get => _isFountainEnable;
+            private set
             {
-                var list = new List<Cell>(matrixBoard.GetLength(0) * matrixBoard.GetLength(1));
-                for (int i = 0; i < matrixBoard.GetLength(0); i++)
-                    for (int j = 0; j < matrixBoard.GetLength(1); j++)
-                        list.Add(matrixBoard[i, j]);
-                return list;
-            }
-            set
-            {
-                matrixBoard = new Cell[nbColumns, nbRows];
-                if (value == null) return;
-                int columns = nbColumns;
-                int rows = nbRows;
-                for (int i = 0; i < columns; i++)
-                    for (int j = 0; j < rows; j++)
-                        matrixBoard[i, j] = value[i * rows + j];
+                if (_isFountainEnable != value)
+                {
+                    _isFountainEnable = value;
+                }
             }
         }
 
+        public void SetFountainEnable()
+        {
+            IsFountainEnable = true;
+        }
+
+        private bool _areTrapsEnable = true;
+        public bool AreTrapsEnable
+        {
+            get => _areTrapsEnable;
+            private set
+            {
+                if (_areTrapsEnable != value)
+                {
+                    _areTrapsEnable = value;
+                }
+            }
+        }
+
+        public void SetTrapsDisebale()
+        {
+            AreTrapsEnable = false;
+        }
 
         /// <summary>
         /// Constructeur de la classe Board avec des paramètres
@@ -218,10 +222,7 @@ namespace DouShouQiModel
                     continue;
                 }
 
-                if (piece.CanJumpOverWater)
-                {
-                    TryAddJumpMove(new JumpMoveContext(piece, dx[dir], dy[dir], rules, allPieces, board, list));
-                }
+                TryAddJumpMove(new JumpMoveContext(piece, dx[dir], dy[dir], rules, allPieces, board, list));
             }
         }
 
@@ -303,3 +304,5 @@ namespace DouShouQiModel
         public Cell GetCell(Position pos) => matrixBoard[pos.X, pos.Y];
     }
 }
+
+

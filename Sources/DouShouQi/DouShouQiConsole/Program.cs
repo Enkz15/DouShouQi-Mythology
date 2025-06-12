@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Json;
-using System.Xml;
 using System.Text;
 using DouShouQiConsole;
 using DouShouQiModel;
@@ -13,25 +10,26 @@ Console.OutputEncoding = Encoding.UTF8;
 var board = new Board();
 var game = new Game();
 var boardPrinter = new BoardPrinter();
+game.ListAbilityIsActivate = new List<bool>();
 
-InitGame(game, boardPrinter);
+InitGame(game, boardPrinter, board, game.ListAbilityIsActivate);
 InitPlayers(game);
 
-var allPieces = CreateAllPieces();
-var stubMatrix = CreateStubMatrix();
+var allPieces = CreateAllPieces(game.ListAbilityIsActivate);
+var stubMatrix = CreateStubMatrix(board.AreTrapsEnable, board.IsFountainEnable);
 InitBoardIfPossible(board, stubMatrix);
 
 var teamsToCheck = GetTeams(game);
 
 GameLoop(game, board, boardPrinter, allPieces, teamsToCheck);
 
-static void InitGame(Game game, BoardPrinter boardPrinter)
+static void InitGame(Game game, BoardPrinter boardPrinter, Board board, List<bool> listAbilityIsActivate)
 {
-    SubscribeGameEvents(game, boardPrinter);
-    TryStartGame(game);
+    SubscribeGameEvents(game, boardPrinter, board, listAbilityIsActivate);
+    TryStartGame(game, board, listAbilityIsActivate);
 }
 
-static void SubscribeGameEvents(Game game, BoardPrinter boardPrinter)
+static void SubscribeGameEvents(Game game, BoardPrinter boardPrinter, Board board, List<bool> listAbilityIsActivate)
 {
     game.GameInit += DisplayAskClass.OnGameInit;
     game.Failed += DisplayAskClass.DisplayError;
@@ -42,11 +40,11 @@ static void SubscribeGameEvents(Game game, BoardPrinter boardPrinter)
     boardPrinter.BoardAffich += DisplayAskClass.DisplayBoard;
 }
 
-static void TryStartGame(Game game)
+static void TryStartGame(Game game, Board board, List<bool> listAbilityIsActivate)
 {
     try
     {
-        game.StartGame();
+        game.StartGame(board, listAbilityIsActivate);
     }
     catch (Exception e)
     {
@@ -69,15 +67,15 @@ static void SubscribeHumanPlayer(Player? player)
     }
 }
 
-static List<Piece> CreateAllPieces()
-    => new Stubs.ListPieceStub().CreateStubListPiece();
+static List<Piece> CreateAllPieces(List<bool> listAbilityIsActivate)
+    => new Stubs.ListPieceStub().CreateStubListPiece(listAbilityIsActivate);
 
-static Matrix? CreateStubMatrix()
+static Matrix? CreateStubMatrix(bool areTrapEneable, bool isFontainEneable)
 {
     try
     {
         var stubCell = new Stubs.TabCellStub();
-        var stubCells = stubCell.CreateStubBoard();
+        var stubCells = stubCell.CreateStubBoard(areTrapEneable, isFontainEneable);
         if (stubCells == null)
         {
             Console.WriteLine("Erreur : le plateau de cellules n'a pas pu être créé.");

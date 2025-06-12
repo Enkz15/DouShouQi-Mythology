@@ -13,39 +13,29 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Data;
+using System.Diagnostics;
+using System.IO.Pipelines;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using DouShouQiModel;
+using static System.Net.Mime.MediaTypeNames;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Collections.ObjectModel;
 
 namespace DouShouQiModel
 {
-    public class Game : IIsPersistant
+    public class Game
     {
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+        protected void OnPropertyChanged([CallerMemberName] string? propertyName = null) 
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         /// <summary>
         /// Représente le plateau de jeu
         /// </summary>
-        private Board? _board = null;
-        /// <summary>
-        /// Représente le plateau de jeu
-        /// </summary>
-        public Board? Board
-        {
-            get => _board;
-            set
-            {
-                if (_board != value)
-                {
-                    _board = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
+        internal Board? Board = null;
         /// <summary>
         /// Représente le joueur 1
         /// </summary>
@@ -106,6 +96,9 @@ namespace DouShouQiModel
                 }
             }
         }
+
+        public List<bool>? ListAbilityIsActivate { get; set; }
+
         public void SetCurrentPlayer(Player player) => CurrentPlayer = player;
 
         /// <summary>
@@ -136,32 +129,21 @@ namespace DouShouQiModel
         {
 
         }
-
-        public Game(Game game)
-        {
-            Board = game.Board;
-            Player1 = game.Player1;
-            Player2 = game.Player2;
-            Rules = game.Rules;
-            IsGameLaunched = game.IsGameLaunched;
-            TurnCounter = game.TurnCounter;
-            CurrentPlayer = game.CurrentPlayer;
-        }
         /// <summary>
         /// Initialise le jeu en demandant les joueurs et les règles
         /// </summary>
-        public void InitializeGame()
+        public void InitializeGame(Board board, List<bool> listAbilityIsActivate)
         {
-            OnGameInit(new GameInitEventArgs());
+            OnGameInit(new GameInitEventArgs(board, listAbilityIsActivate));
         }
 
         /// <summary>
         /// Lance le jeu
         /// </summary>
         /// <exception cref="InvalidOperationException"></exception>
-        public void StartGame()
+        public void StartGame(Board board, List<bool> listAbilityIsActivate)
         {
-            InitializeGame();
+            InitializeGame(board, listAbilityIsActivate);
 
             if (Player1 == null || Player2 == null || Rules == null)
                 throw new InvalidOperationException("Jeu non initialisé");
@@ -270,6 +252,52 @@ namespace DouShouQiModel
             {
                 OnFailed(new FailedEventArgs(currentPlayer, e));
                 MakeMoove(currentPlayer, board, allPieces, rules);
+            }
+        }
+
+        /// <summary>
+        /// Va activer la fontaine en fonction des choix du joueur.
+        /// </summary>
+        public static void EnableFountain(Board board, IRules currentRules)
+        {
+            if (currentRules is CustomRules)
+                board.SetFountainEnable();
+        }
+
+        /// <summary>
+        /// Supprime les traps du board
+        /// </summary>
+        /// <param name="board"></param>
+        /// <param name="currentRules"></param>
+        public static void DisebaleTraps(Board board, IRules currentRules)
+        {
+            if (currentRules is CustomRules)
+                board.SetTrapsDisebale();    
+        }
+
+        /// <summary>
+        /// Va configurer le jeu en choisissant les options choisit par le joueur
+        /// </summary>
+        /// <param name="fontain"></param>
+        /// <param name="traps"></param>
+        public static void SetGameOptions(bool fontain, bool traps) 
+        {
+
+        }
+
+        /// <summary>
+        /// Lorsque la fontaine réaparait, cela va tuer toutes les pièces qui sont dans la partie eau.
+        /// </summary>
+        /// <param name="allPieces"></param>
+        /// <param name="currentRules"></param>
+        public static void KillPieceOnWater(List<Piece> allPieces, IRules currentRules)
+        {
+            foreach (Piece piece in allPieces)
+            {
+                if (currentRules.WhichCellType(piece.Position) == CellType.Water)
+                {
+                    piece.SetInPlay(false);
+                }
             }
         }
     }
